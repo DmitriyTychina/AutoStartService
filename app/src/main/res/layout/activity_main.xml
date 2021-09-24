@@ -18,8 +18,18 @@
         android:text="button2"/>
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/AutostartS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="mSwitch" />
+        android:minHeight="48dp"
+        android:text="Autostart service"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <Switch
+        android:id="@+id/SWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="Service is working"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 </LinearLayout>
