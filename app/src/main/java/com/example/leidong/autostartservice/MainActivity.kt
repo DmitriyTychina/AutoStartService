@@ -44,11 +44,11 @@ class MainActivity : AppCompatActivity() {
         val vas: Switch = findViewById(R.id.AutostartS)
         val vsw: Switch = findViewById(R.id.SWork)
 
-        val broadcastReceiver = MainBroadcastReceiver()
-        val filter = IntentFilter()
-        filter.addAction(Intent.ACTION_SCREEN_ON)
-        filter.addAction(Intent.ACTION_SCREEN_OFF)
-        registerReceiver(broadcastReceiver, filter)
+//        val broadcastReceiver = MainBroadcastReceiver()
+//        val filter = IntentFilter()
+//        filter.addAction(Intent.ACTION_SCREEN_ON)
+//        filter.addAction(Intent.ACTION_SCREEN_OFF)
+//        registerReceiver(broadcastReceiver, filter)
 
 
         vas.setChecked(sharedPreferences.getBoolean("AutoStartService", false))
