@@ -77,9 +77,9 @@ class AutoStartService : Service() {
             }
         }
         return if (state)
-            START_STICKY_COMPATIBILITY
+            START_STICKY
         else
-            return START_NOT_STICKY
+            START_NOT_STICKY
         //super.onStartCommand(intent, flags, startId)
     }
 
