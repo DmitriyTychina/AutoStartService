@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         vas.setChecked(sharedPreferences.getBoolean("AutoStartService", false))
 
-        Log.d(tag, "sAutoStartService="+sAutoStartService.toString())
+        Log.d(tag, "sAutoStartService=" + sAutoStartService.toString())
         startService(Intent(this@MainActivity, AutoStartService::class.java).setAction("init"))
 
         //打开
@@ -76,7 +76,12 @@ class MainActivity : AppCompatActivity() {
             editor.putBoolean("AutoStartService", vas.isChecked).apply()
 //            Toast.makeText(applicationContext, "service autostarted", Toast.LENGTH_LONG).show()
 
-            startService(Intent(this@MainActivity, AutoStartService::class.java).setAction(if(vas.isChecked) "start" else "stop"))
+            startService(
+                Intent(
+                    this@MainActivity,
+                    AutoStartService::class.java
+                ).setAction(if (vas.isChecked) "start" else "stop")
+            )
 //            startForegroundService(sAutoStartService)
         }
     }

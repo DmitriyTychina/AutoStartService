@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
 
 
 class AutoStartService : Service() {
@@ -17,8 +16,14 @@ class AutoStartService : Service() {
     var tag = "@@Service"
     var state = false
     private val helper by lazy { NotificationHelper(this) }
-    private val sharedPreferences by lazy {applicationContext.getSharedPreferences("autostart", ContextWrapper.MODE_PRIVATE)}
-    private val flagautostart by lazy {sharedPreferences.getBoolean("AutoStartService", false)}
+    private val sharedPreferences by lazy {
+        applicationContext.getSharedPreferences(
+            "autostart",
+            ContextWrapper.MODE_PRIVATE
+        )
+    }
+    private val flagautostart by lazy { sharedPreferences.getBoolean("AutoStartService", false) }
+
     //    private BroadcastReceiver broadcastReceiver;
     private val broadcastReceiver = MainBroadcastReceiver()
 
@@ -79,7 +84,7 @@ class AutoStartService : Service() {
 
     private fun fStartService() {
         if (!state) {
-        Toast.makeText(getApplicationContext(), "service start!!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "service start!!!", Toast.LENGTH_LONG).show();
             Log.d(tag, "fStartService")
             state = true
             startForeground(NotificationHelper.NOTIFICATION_ID, helper.getNotification())
