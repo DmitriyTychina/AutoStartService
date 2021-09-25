@@ -11,11 +11,11 @@
         android:id="@+id/button1"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="button1" />
+        android:text="Запустить сервис" />
     <Button android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="button2"/>
+        android:text="Остановаить сервис"/>
 
     <Switch
         android:id="@+id/AutostartS"
@@ -25,11 +25,4 @@
         android:text="Autostart service"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-    <Switch
-        android:id="@+id/SWork"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:text="Service is working"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
 </LinearLayout>

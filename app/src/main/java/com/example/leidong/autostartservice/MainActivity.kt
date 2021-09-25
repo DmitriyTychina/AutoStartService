@@ -1,19 +1,13 @@
 package com.example.leidong.autostartservice
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Switch
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,13 +36,12 @@ class MainActivity : AppCompatActivity() {
 //        Toast.makeText(applicationContext, "onCreate MainActivity", Toast.LENGTH_LONG).show()
 
         val vas: Switch = findViewById(R.id.AutostartS)
-        val vsw: Switch = findViewById(R.id.SWork)
 
-        val broadcastReceiver = MainBroadcastReceiver()
-        val filter = IntentFilter()
-        filter.addAction(Intent.ACTION_SCREEN_ON)
-        filter.addAction(Intent.ACTION_SCREEN_OFF)
-        registerReceiver(broadcastReceiver, filter)
+//        val broadcastReceiver = MainBroadcastReceiver()
+//        val filter = IntentFilter()
+//        filter.addAction(Intent.ACTION_SCREEN_ON)
+//        filter.addAction(Intent.ACTION_SCREEN_OFF)
+//        registerReceiver(broadcastReceiver, filter)
 
 
         vas.setChecked(sharedPreferences.getBoolean("AutoStartService", false))
@@ -58,10 +51,10 @@ class MainActivity : AppCompatActivity() {
 
         //打开
         findViewById<View>(R.id.button1).setOnClickListener {
-            editor.putBoolean("AutoStartService", true)
-            editor.apply()
-            Toast.makeText(applicationContext, "service autostarted", Toast.LENGTH_LONG).show()
-            vas.setChecked(true)
+//            editor.putBoolean("AutoStartService", true)
+//            editor.apply()
+//            Toast.makeText(applicationContext, "service autostarted", Toast.LENGTH_LONG).show()
+//            vas.setChecked(true)
 
             startService(Intent(this@MainActivity, AutoStartService::class.java).setAction("start"))
 //            startForegroundService(sAutoStartService)
@@ -70,62 +63,21 @@ class MainActivity : AppCompatActivity() {
         //关闭
         findViewById<View>(R.id.button2).setOnClickListener {
 //            val editor = sharedPreferences.edit()
-            editor.putBoolean("AutoStartService", false)
-            editor.apply()
-            Toast.makeText(applicationContext, "service no autostarted", Toast.LENGTH_LONG).show()
-            vas.setChecked(false)
+//            editor.putBoolean("AutoStartService", false)
+//            editor.apply()
+//            Toast.makeText(applicationContext, "service no autostarted", Toast.LENGTH_LONG).show()
+//            vas.setChecked(false)
 
-            stopService(Intent(this@MainActivity, AutoStartService::class.java).setAction("stop"))
+            startService(Intent(this@MainActivity, AutoStartService::class.java).setAction("stop"))
 //            stopForegroundService(sAutoStartService)
         }
 
-        vas.setOnClickListener { v: View? ->
-//            Toast.makeText(applicationContext, "Switch " + vas.isChecked + "v="+v.toString(), Toast.LENGTH_LONG).show()
-            editor.putBoolean("AutoStartService", vas.isChecked)
-            vsw.setChecked(vas.isChecked)
+        vas.setOnClickListener {
+            editor.putBoolean("AutoStartService", vas.isChecked).apply()
+//            Toast.makeText(applicationContext, "service autostarted", Toast.LENGTH_LONG).show()
+
+            startService(Intent(this@MainActivity, AutoStartService::class.java).setAction(if(vas.isChecked) "start" else "stop"))
+//            startForegroundService(sAutoStartService)
         }
     }
-
-    //This is from Util class so as not to cloud your service
-//    fun startForegroundService(StartService: AutoStartService) {
-//        val notificationTitle = "Service running"
-//        val notificationContent = "<My app> is using <service name> "
-//        val actionButtonText = "Stop"
-////        //Check android version and create channel for Android O and above
-////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-////            //You can do this on your own
-////            //createNotificationChannel(CHANNEL_ID_SERVICE)
-////        }
-//        //Build notification
-//        val notificationBuilder =
-//            NotificationCompat.Builder(applicationContext, "CHANNEL_ID_SERVICE")
-//        notificationBuilder.setAutoCancel(true)
-//            .setDefaults(NotificationCompat.DEFAULT_ALL)
-//            .setWhen(System.currentTimeMillis())
-//            .setSmallIcon(R.drawable.ic_baseline_vpn_lock_24)
-//            .setContentTitle(notificationTitle)
-//            .setContentText(notificationContent)
-//            .setVibrate(null)
-////        //Add stop button on notification
-////        val pStopSelf = createStopButtonIntent(AutoStartService)
-////        notificationBuilder.addAction(R.drawable.ic_location, actionButtonText, pStopSelf)
-//        //Build notification
-//        val notificationManagerCompact = NotificationManagerCompat.from(applicationContext)
-//        notificationManagerCompact.notify(0, notificationBuilder.build())
-//        val notification = notificationBuilder.build()
-//        //Start notification in foreground to let user know which service is running.
-//        StartService.startForeground(0, notification)
-//        //Send notification
-//        notificationManagerCompact.notify(0, notification)
-//    }
-//
-//    // Function to create stop button intent to stop the service.
-//    private fun stopForegroundService(StopService: AutoStartService): PendingIntent? {
-//        val stopSelf = Intent(applicationContext, StopService::class.java)
-//        stopSelf.action = "ACTION_STOP_SERVICE"
-//        return PendingIntent.getService(
-//            StopService, 0,
-//            stopSelf, PendingIntent.FLAG_CANCEL_CURRENT
-//        )
-//    }
 }
