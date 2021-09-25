@@ -9,31 +9,30 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 
-
 class AutoStartService : Service() {
     override fun onBind(intent: Intent): IBinder? = null
 
-    var tag = "@@Service"
-    var state = false
+    private var tag = "@@Service"
+    private var state = false
     private val helper by lazy { NotificationHelper(this) }
-    private val sharedPreferences by lazy {
-        applicationContext.getSharedPreferences(
-            "autostart",
-            ContextWrapper.MODE_PRIVATE
-        )
-    }
-    private val flagautostart by lazy { sharedPreferences.getBoolean("AutoStartService", false) }
+//    private val sharedPreferences by lazy {
+//        applicationContext.getSharedPreferences("autostart", ContextWrapper.MODE_PRIVATE)
+//    }
+//    private val flagautostart by lazy { sharedPreferences.getBoolean("AutoStartService", false) }
 
     //    private BroadcastReceiver broadcastReceiver;
-    private val broadcastReceiver = MainBroadcastReceiver()
+    private var broadcastReceiver: MainBroadcastReceiver? = null
 
     override fun onCreate() {
         super.onCreate()
         Log.d(tag, "onCreate")
-        val filter = IntentFilter()
-        filter.addAction(Intent.ACTION_SCREEN_ON)
-        filter.addAction(Intent.ACTION_SCREEN_OFF)
-        registerReceiver(broadcastReceiver, filter)
+        if (broadcastReceiver == null) {
+            broadcastReceiver = MainBroadcastReceiver()
+            val filter = IntentFilter()
+            filter.addAction(Intent.ACTION_SCREEN_ON)
+            filter.addAction(Intent.ACTION_SCREEN_OFF)
+            registerReceiver(broadcastReceiver, filter)
+        }
 //        Toast.makeText(applicationContext, "service create!!!", Toast.LENGTH_LONG).show()
     }
 
@@ -75,16 +74,16 @@ class AutoStartService : Service() {
                 fStopService()
             }
         }
-        if (state)
-            return START_STICKY_COMPATIBILITY
+        return if (state)
+            START_STICKY_COMPATIBILITY
         else
-            return START_NOT_STICKY
+            START_NOT_STICKY
         //super.onStartCommand(intent, flags, startId)
     }
 
     private fun fStartService() {
         if (!state) {
-            Toast.makeText(getApplicationContext(), "service start!!!", Toast.LENGTH_LONG).show();
+            Toast.makeText(applicationContext, "service start!!!", Toast.LENGTH_LONG).show()
             Log.d(tag, "fStartService")
             state = true
             startForeground(NotificationHelper.NOTIFICATION_ID, helper.getNotification())

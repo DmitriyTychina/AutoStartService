@@ -7,15 +7,15 @@ import android.os.Build
 import android.util.Log
 
 class MainBroadcastReceiver : BroadcastReceiver() {
-    var tag = "@@Receiver"
+    private var tag = "@@Receiver"
 
     init {
-        Log.d(tag, "init")
+        Log.d(tag, "init $this")
+
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        val action = intent.action
-        if (action == null) return
+        val action = intent.action ?: return
         val service = Intent(
             context.applicationContext,
             AutoStartService::class.java
@@ -36,11 +36,11 @@ class MainBroadcastReceiver : BroadcastReceiver() {
             )
         } else if (action == "android.intent.action.BOOT_COMPLETED" || action == "android.intent.action.QUICKBOOT_POWERON" || action == "android.intent.action.REBOOT" || action == "com.htc.intent.action.QUICKBOOT_POWERON") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.getApplicationContext().startForegroundService(
+                context.applicationContext.startForegroundService(
                     service.putExtra("action", "boot")
                 )
             } else {
-                context.getApplicationContext().startService(
+                context.applicationContext.startService(
                     service.putExtra("action", "boot")
                 )
             }
