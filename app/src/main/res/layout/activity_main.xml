@@ -16,13 +16,13 @@
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Остановаить сервис"/>
+        android:text="Остановить сервис"/>
     <Switch
         android:id="@+id/AutostartS"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
-        android:text="Autostart service"
+        android:text="Запускать сервис при загрузке Android"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.leidong.autostartservice
+package com.example.amigo.autostartservice
 
 import android.app.Notification
 import android.app.NotificationChannel

@@ -1,10 +1,11 @@
-package com.example.leidong.autostartservice
+package com.example.amigo.autostartservice
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.example.amigo.autostartservice.AutoStartService
 
 class MainBroadcastReceiver : BroadcastReceiver() {
     private var tag = "@@Receiver"
@@ -37,11 +38,11 @@ class MainBroadcastReceiver : BroadcastReceiver() {
         } else if (action == "android.intent.action.BOOT_COMPLETED" || action == "android.intent.action.QUICKBOOT_POWERON" || action == "android.intent.action.REBOOT" || action == "com.htc.intent.action.QUICKBOOT_POWERON") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.applicationContext.startForegroundService(
-                    service.putExtra("action", "boot")
+                    service.putExtra("action", "boot").putExtra("receiver", this.toString())
                 )
             } else {
                 context.applicationContext.startService(
-                    service.putExtra("action", "boot")
+                    service.putExtra("action", "boot").putExtra("receiver", this.toString())
                 )
             }
         }

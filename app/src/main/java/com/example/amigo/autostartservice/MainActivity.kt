@@ -1,4 +1,4 @@
-package com.example.leidong.autostartservice
+package com.example.amigo.autostartservice
 
 import android.annotation.SuppressLint
 import android.content.Intent

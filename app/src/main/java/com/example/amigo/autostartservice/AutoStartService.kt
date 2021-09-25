@@ -1,4 +1,4 @@
-package com.example.leidong.autostartservice
+package com.example.amigo.autostartservice
 
 import android.app.Service
 import android.content.ContextWrapper
@@ -31,6 +31,9 @@ class AutoStartService : Service() {
             val filter = IntentFilter()
             filter.addAction(Intent.ACTION_SCREEN_ON)
             filter.addAction(Intent.ACTION_SCREEN_OFF)
+//            filter.addAction(Intent.ACTION_BOOT_COMPLETED)
+//            filter.addAction(Intent.ACTION_REBOOT)
+//            filter.addAction(Intent.ACTION_LOCKED_BOOT_COMPLETED)
             registerReceiver(broadcastReceiver, filter)
         }
 //        Toast.makeText(applicationContext, "service create!!!", Toast.LENGTH_LONG).show()
@@ -60,14 +63,13 @@ class AutoStartService : Service() {
             "start" -> {
                 fStartService()
             }
-            "broadcast" -> {
-                when (intent.getStringExtra("action")) {
-                    "boot" -> {
-                        if (flagautostart)
-                            fStartService()
-                        else
-                            fStopService()
-                    }
+            "broadcast" -> when (intent?.getStringExtra("action")) {
+                "boot" -> {
+                    if (flagautostart)
+                        fStartService()
+                    else
+                        fStopService()
+//                        var tmp: MainBroadcastReceiver = intent.component
                 }
             }
             "stop" -> {
@@ -77,7 +79,7 @@ class AutoStartService : Service() {
         return if (state)
             START_STICKY_COMPATIBILITY
         else
-            START_NOT_STICKY
+            return START_NOT_STICKY
         //super.onStartCommand(intent, flags, startId)
     }
 
