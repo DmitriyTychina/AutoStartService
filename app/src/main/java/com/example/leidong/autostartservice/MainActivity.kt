@@ -1,7 +1,10 @@
 package com.example.leidong.autostartservice
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -23,11 +26,13 @@ class MainActivity : AppCompatActivity() {
 
     //    private var sharedPreferences: SharedPreferences = getSharedPreferences("autostart", MODE_PRIVATE)
     private var sAutoStartService: AutoStartService = AutoStartService()
+//    private var broadcastReceiver: BroadcastReceiver? = null
 
     //    private val editor = sharedPreferences.edit()
     val tag = "@@Main"
 
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(tag, "onCreate")
@@ -38,10 +43,19 @@ class MainActivity : AppCompatActivity() {
 
         val vas: Switch = findViewById(R.id.AutostartS)
         val vsw: Switch = findViewById(R.id.SWork)
+
+        val broadcastReceiver = MainBroadcastReceiver()
+        val filter = IntentFilter()
+        filter.addAction(Intent.ACTION_SCREEN_ON)
+        filter.addAction(Intent.ACTION_SCREEN_OFF)
+        registerReceiver(broadcastReceiver, filter)
+
+
         vas.setChecked(sharedPreferences.getBoolean("AutoStartService", false))
 
         Log.d(tag, "sAutoStartService="+sAutoStartService.toString())
         startService(Intent(this@MainActivity, AutoStartService::class.java).setAction("init"))
+
         //打开
         findViewById<View>(R.id.button1).setOnClickListener {
             editor.putBoolean("AutoStartService", true)
@@ -73,45 +87,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     //This is from Util class so as not to cloud your service
-    fun startForegroundService(StartService: AutoStartService) {
-        val notificationTitle = "Service running"
-        val notificationContent = "<My app> is using <service name> "
-        val actionButtonText = "Stop"
-//        //Check android version and create channel for Android O and above
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            //You can do this on your own
-//            //createNotificationChannel(CHANNEL_ID_SERVICE)
-//        }
-        //Build notification
-        val notificationBuilder =
-            NotificationCompat.Builder(applicationContext, "CHANNEL_ID_SERVICE")
-        notificationBuilder.setAutoCancel(true)
-            .setDefaults(NotificationCompat.DEFAULT_ALL)
-            .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.drawable.ic_baseline_vpn_lock_24)
-            .setContentTitle(notificationTitle)
-            .setContentText(notificationContent)
-            .setVibrate(null)
-//        //Add stop button on notification
-//        val pStopSelf = createStopButtonIntent(AutoStartService)
-//        notificationBuilder.addAction(R.drawable.ic_location, actionButtonText, pStopSelf)
-        //Build notification
-        val notificationManagerCompact = NotificationManagerCompat.from(applicationContext)
-        notificationManagerCompact.notify(0, notificationBuilder.build())
-        val notification = notificationBuilder.build()
-        //Start notification in foreground to let user know which service is running.
-        StartService.startForeground(0, notification)
-        //Send notification
-        notificationManagerCompact.notify(0, notification)
-    }
-
-    // Function to create stop button intent to stop the service.
-    private fun stopForegroundService(StopService: AutoStartService): PendingIntent? {
-        val stopSelf = Intent(applicationContext, StopService::class.java)
-        stopSelf.action = "ACTION_STOP_SERVICE"
-        return PendingIntent.getService(
-            StopService, 0,
-            stopSelf, PendingIntent.FLAG_CANCEL_CURRENT
-        )
-    }
+//    fun startForegroundService(StartService: AutoStartService) {
+//        val notificationTitle = "Service running"
+//        val notificationContent = "<My app> is using <service name> "
+//        val actionButtonText = "Stop"
+////        //Check android version and create channel for Android O and above
+////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+////            //You can do this on your own
+////            //createNotificationChannel(CHANNEL_ID_SERVICE)
+////        }
+//        //Build notification
+//        val notificationBuilder =
+//            NotificationCompat.Builder(applicationContext, "CHANNEL_ID_SERVICE")
+//        notificationBuilder.setAutoCancel(true)
+//            .setDefaults(NotificationCompat.DEFAULT_ALL)
+//            .setWhen(System.currentTimeMillis())
+//            .setSmallIcon(R.drawable.ic_baseline_vpn_lock_24)
+//            .setContentTitle(notificationTitle)
+//            .setContentText(notificationContent)
+//            .setVibrate(null)
+////        //Add stop button on notification
+////        val pStopSelf = createStopButtonIntent(AutoStartService)
+////        notificationBuilder.addAction(R.drawable.ic_location, actionButtonText, pStopSelf)
+//        //Build notification
+//        val notificationManagerCompact = NotificationManagerCompat.from(applicationContext)
+//        notificationManagerCompact.notify(0, notificationBuilder.build())
+//        val notification = notificationBuilder.build()
+//        //Start notification in foreground to let user know which service is running.
+//        StartService.startForeground(0, notification)
+//        //Send notification
+//        notificationManagerCompact.notify(0, notification)
+//    }
+//
+//    // Function to create stop button intent to stop the service.
+//    private fun stopForegroundService(StopService: AutoStartService): PendingIntent? {
+//        val stopSelf = Intent(applicationContext, StopService::class.java)
+//        stopSelf.action = "ACTION_STOP_SERVICE"
+//        return PendingIntent.getService(
+//            StopService, 0,
+//            stopSelf, PendingIntent.FLAG_CANCEL_CURRENT
+//        )
+//    }
 }

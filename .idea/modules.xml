@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutoStartService-master.iml" filepath="$PROJECT_DIR$/.idea/modules/AutoStartService-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AutoStartService-master.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AutoStartService-master.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AutoStartService-Amigo.iml" filepath="$PROJECT_DIR$/.idea/modules/AutoStartService-Amigo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AutoStartService-Amigo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AutoStartService-Amigo.app.iml" />
     </modules>
   </component>
 </project>
